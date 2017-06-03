@@ -30,25 +30,36 @@
 
 package org.wepsig.payment;
 
+/**
+ * 货币类型，参见ISO-4217
+ */
+enum Currency {
+}
 
 /**
  * 支付账户（外部）
- * <ol>
- *    <li> 1 ~ 10 : 控制信息 </li>
- *    <li> 11~ 20 : 余额信息 </li>
- * </ol>
  * 
  */
 message Account {
    
-    required int64 id		= 1; //主键
+    required int64 id			= 1; //主键
     required int64 create_time	= 2; //创建时间
     required int64 update_time	= 3; //更新时间
-    required int32 status	= 4; //状态
-    optional int64 version	= 5; //版本
+    required int32 status		= 4; //状态
+    optional int64 version		= 5; //版本
 
-    required int64 rest_balance		= 11; //余额
-    required int64 total_balance	= 12; //充值金额
-    required int64 frozen_balance	= 13; //冻结金额
+
+	/**
+	 * 账户余额信息
+	 *
+	 */
+	message Balance{
+		required Currency	currency	= 1; //货币单位，可以是ISO
+		required int64 rest_balance		= 1; //余额
+		required int64 total_balance	= 2; //充值金额
+		required int64 frozen_balance	= 3; //冻结金额
+	}
+
+	required Balance balance = 6; //余额信息
 }
 
